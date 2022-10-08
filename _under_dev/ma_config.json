@@ -1,0 +1,15 @@
+{
+    "music_folder": "C:/Personal/Projects/DEV/MusicAlarm/Musics",
+    "recipient_list": [
+        "barron.stone@gmail.com",
+        "barron.stone.python@gmail.com"
+    ],
+    "hour": "07",
+    "minute": "30",
+    "quote": 0,
+    "weather": 1,
+    "twitter": 1,
+    "wikipedia": 1,
+    "sender_email": "barron.stone.python@gmail.com",
+    "sender_password": "gZyVVkwGXwoMlofaZnPg"
+}
