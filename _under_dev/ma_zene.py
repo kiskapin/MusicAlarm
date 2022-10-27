@@ -3,53 +3,121 @@ import sys
 from pygame import mixer
 # importing time module
 import time
-
-"""
-def play_music(path):
-
-    print(path)
-    _songs = [p for p in Path(f"{path}").glob('*.mp3')]
-    for song in _songs:
-        # creating vlc media player object
-        media_player = vlc.MediaPlayer()
-        # media object
-        media = vlc.Media(f"{song}")
-        # setting media to the media player
-        media_player.set_media(media)
-        # setting volume
-        media_player.audio_set_volume(70)
-        # setting video scale
-        media_player.video_set_scale(0.6)
-        # setting audio track
-        media_player.audio_set_track(1)
-        # start playing video
-        media_player.play()
-        # wait so the video can be played for 5 seconds
-        # irrespective for length of video
-        time.sleep(50)
-        #os.system('\Lonely.mp3')
+import pathlib
+import json 
 
 
-#def vlc():
-
-"""
-
-"""
-class Player():
-    def __init__(self, **kwargs):
-        # Shared Variable.
-        #self.status = {}
-        self.play = True
+def get_sys():
+    _sys_name = ''
+    _status = 1
+    if sys.platform == "linux" or sys.platform == "linux2":
+        _sys_name = 'linux'
+    elif sys.platform == "darwin":
+        _sys_name = 'OS X'
+    elif sys.platform == "win32":
+        _sys_name = 'Windows'
+    else:
+        _sys_name = 'No system recognised, exiting...'
+        _status = 0
     
-"""
+    return _status,_sys_name
+
+class Music():
+
+    def __init__(self):
+        self.IsPaused = False
+        self._music_folder = '.\Musics'
+        self._length = 20
+
+    def toggleMusic(self):
+        if self.IsPaused:
+            print("Unpause Music")
+            mixer.music.unpause()
+            self.IsPaused = False
+        else:
+            print("Pause Music")
+            mixer.music.pause()
+            self.IsPaused = True
+    def stop(self):
+        print("Stop Music")
+        mixer.music.stop()
+
+    def list(self, file_path='ma_config.json'):
+        try: # load values from configuration file
+            with open(file_path) as file:
+                config = json.load(file)
+                self._music_folder = config['music_folder']
+                print(self._music_folder)
+        except Exception as e: # use default values
+            print(e)
+            print('No music folder has been defined')
+            print('\tHint: Set music_folder in ma_config.json file')
+            #self._music_folder.set(filedialog.askdirectory())
+
+    def length(self,_path):
+        self._length = round(mixer.Sound(_path).get_length())
+        print(self._length)
 
 if __name__ == '__main__':
-    
-    #play_music(r'C:\Personal\Projects\DEV\MusicAlarm\Musics')
-    p = (r'C:\Personal\Projects\DEV\MusicAlarm\Musics\Lonely.mp3')
 
-    mixer.init()
-    mixer.music.load(p)
-    mixer.music.play()
-    while mixer.music.get_busy():  # wait for music to finish playing
-        time.sleep(1)
+    while True:
+
+            # test the functions    
+        if get_sys()[0] == 1:
+            print(get_sys()[1])
+        else:
+            print('ERROR')
+            print(get_sys()[1]) 
+            break
+
+
+        music = Music()
+        music.list()
+        music_list = list(pathlib.Path(music._music_folder).glob('*.mp3'))
+        print(music_list)
+        mixer.init()
+        """
+        list(pathlib.Path('your_directory').glob('*.txt'))
+        music = Music()
+        music_list = list(pathlib.Path(r'.\Musics').glob('*.mp3'))
+        print(music_list)
+        mixer.init()
+        """
+
+        #mixer.music.load(f".\{music_list[0]}")
+        #mixer.music.play()
+
+        for path in music_list:
+            mixer.music.load(f"{path}")
+            music.length(path)
+            #sound = mixer.music.load(f".\{path}")
+            mixer.music.play()
+
+            _t_end = time.time() + music._length
+            while time.time() < _t_end:
+                
+                _user_input = input("Press p for Pause / Play or n for exit: ")
+
+                if _user_input == 'n':
+                    print("next song in in 2 sec..")
+                    time.sleep(2)
+                    break
+                elif _user_input == 'p':
+                    music.toggleMusic()
+                elif _user_input == 's':
+                    music.stop()
+                    break
+                else: 
+                    print("wrong input")
+            
+            if _user_input == 's':
+                break
+
+                
+
+        _exit = input("Do you want to exit? (Y/N):")
+        if _exit.lower() == 'y':
+            break
+        elif _exit.lower() == 'n':
+            print("No exit - infinity run")
+

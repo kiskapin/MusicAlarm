@@ -1,0 +1,4 @@
+# required packages for the Music Alarm tool
+pygame
+tk
+keyboard
