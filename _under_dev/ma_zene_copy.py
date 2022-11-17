@@ -60,8 +60,50 @@ class Music():
         print(self._length)
 
 
+
+
 if __name__ == '__main__':
 
+
+
+
+    music = Music()
+
+
+    music.list()
+    music_list = list(pathlib.Path(music._music_folder).glob('*.mp3'))
+    print(music_list)
+    
+
+    music_player = tk.Tk()
+    music_player.title("Music Player")
+    music_player.geometry("500x420")
+
+    music_list = list(pathlib.Path(music._music_folder).glob('*.mp3'))
+    playlist = tk.Listbox(music_player,fg = "navy", selectmode= tk.SINGLE)
+    x = 0
+    for i in music_list:
+        playlist.insert(x,i)
+        x += 1
+
+    mixer.init()
+
+    _play_button = tk.Button(music_player, width = 5 , height= 3, text="Play")#, command = music.toggleMusic())
+    _stop_button = tk.Button(music_player, width = 5 , height= 3, text="Stop")#, command = music.stop())
+    #_forward_button = tk.Button(music_player, width = 5 , height= 3, text="Forward", command = music.toggleMusic())
+
+    var = tk.StringVar()
+    var.set(playlist.get(tk.ACTIVE))
+    song_title = tk.Label(music_player,textvariable = var)
+
+    
+    song_title.pack()
+    _play_button.pack(fill="x")
+    _stop_button.pack(fill="x")
+
+    music_player.mainloop()
+
+    """
     while True:
 
             # test the functions    
@@ -73,18 +115,12 @@ if __name__ == '__main__':
             break
 
 
-        music = Music()
+        
         music.list()
         music_list = list(pathlib.Path(music._music_folder).glob('*.mp3'))
         print(music_list)
         mixer.init()
-        """
-        list(pathlib.Path('your_directory').glob('*.txt'))
-        music = Music()
-        music_list = list(pathlib.Path(r'.\Musics').glob('*.mp3'))
-        print(music_list)
-        mixer.init()
-        """
+
 
         #mixer.music.load(f".\{music_list[0]}")
         #mixer.music.play()
@@ -123,3 +159,4 @@ if __name__ == '__main__':
         elif _exit.lower() == 'n':
             print("No exit - infinity run")
 
+    """
