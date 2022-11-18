@@ -6,6 +6,7 @@ import time
 import pathlib
 import json 
 import tkinter as tk
+import random
 
 
 def get_sys():
@@ -27,7 +28,8 @@ class Music():
 
     def __init__(self):
         self.IsPaused = False
-        self._music_folder = '.\Musics'
+        self._sMusicFolder = '.\Musics'
+        self._lMusicOrder = list(range(1))
         self._length = 20
 
     def toggleMusic(self):
@@ -47,8 +49,12 @@ class Music():
         try: # load values from configuration file
             with open(file_path) as file:
                 config = json.load(file)
-                self._music_folder = config['music_folder']
-                print(self._music_folder)
+                self._sMusicFolder = config['music_folder']
+                self._lMusicPath = list(pathlib.Path(self._sMusicFolder).glob('*.mp3'))
+                self._lMusicOrder = list(range(len(self._lMusicPath)))
+                print(self._sMusicFolder)
+                print(self._lMusicPath)
+                print(self._lMusicOrder)
         except Exception as e: # use default values
             print(e)
             print('No music folder has been defined')
@@ -60,8 +66,62 @@ class Music():
         print(self._length)
 
 
+def play(_sMusic):
+    random.shuffle(_sMusic._lMusicOrder)
+
+    for i in _sMusic._lMusicOrder:
+        print(_sMusic._lMusicPath[i])
+        mixer.music.load(_sMusic._lMusicPath[i])
+        mixer.music.play()
+
+def stop():
+    mixer.music.stop()
+
+
+
 if __name__ == '__main__':
 
+
+
+    
+    music = Music()
+    mixer.init()
+
+    # List the path from the config file / default musics
+    music.list()
+    
+    # create tkinter
+    music_player = tk.Tk()
+    music_player.title("Music Player")
+    music_player.geometry("500x420")
+
+    # make playlist list
+    playlist = tk.Listbox(music_player,fg = "navy", selectmode= tk.SINGLE)
+    x = 0
+    for i in music._lMusicPath:
+        playlist.insert(x,i)
+        x += 1
+    print(playlist)
+
+    _play_button = tk.Button(music_player, width = 5 , height= 3, text="Play", command= lambda: play(music) )#, command = music.toggleMusic())
+    _stop_button = tk.Button(music_player, width = 5 , height= 3, text="Stop", command = stop)#, command = music.stop())
+    #_forward_button = tk.Button(music_player, width = 5 , height= 3, text="Forward", command = music.toggleMusic())
+
+    """
+    var = tk.StringVar()
+    var.set(playlist.get(tk.ACTIVE))
+    song_title = tk.Label(music_player,textvariable = var)
+    song_title.pack()
+    """
+    playlist.pack(fill="x")
+    _play_button.pack(fill="x")
+    _stop_button.pack(fill="x")
+
+    music_player.mainloop()
+
+    # https://stackoverflow.com/questions/70483495/break-a-while-loop-when-a-button-is-pressed
+
+    """
     while True:
 
             # test the functions    
@@ -73,18 +133,12 @@ if __name__ == '__main__':
             break
 
 
-        music = Music()
+        
         music.list()
         music_list = list(pathlib.Path(music._music_folder).glob('*.mp3'))
         print(music_list)
         mixer.init()
-        """
-        list(pathlib.Path('your_directory').glob('*.txt'))
-        music = Music()
-        music_list = list(pathlib.Path(r'.\Musics').glob('*.mp3'))
-        print(music_list)
-        mixer.init()
-        """
+
 
         #mixer.music.load(f".\{music_list[0]}")
         #mixer.music.play()
@@ -123,3 +177,4 @@ if __name__ == '__main__':
         elif _exit.lower() == 'n':
             print("No exit - infinity run")
 
+    """

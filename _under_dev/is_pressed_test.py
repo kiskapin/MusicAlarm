@@ -1,7 +1,7 @@
 from codecs import escape_encode
 import keyboard  # using module keyboard
 while True:  # making a loop
-    #print(keyboard.read_key())
+    print(keyboard.read_key())
     try:
         if keyboard.is_pressed('q'):  # if key 'q' is pressed 
             print('You Pressed q Key!')
@@ -18,3 +18,10 @@ while True:  # making a loop
     except:
         print('You Pressed wrong Key!')
         break  # finishing the loop
+
+
+#
+#
+# 
+#
+#

@@ -1,69 +1,58 @@
 import json
-from pathlib import Path
+import pathlib
 from pygame import mixer
 import time
 import keyboard
+import random
 
 
-def get_music_list(file_path='ma_config.json'):
-    _result = 0
-    with open(file_path) as file:
-        config = json.load(file)
-        _music_folder = config['music_folder']
-        _result = 1
-        return _result, _music_folder
-    
-    if _music_folder == '':
-        return _result
+class Music():
 
+    def __init__(self):
+        self.IsPaused = False
+        self._music_folder = '.\Musics'
+        self._length = 20
 
+    def toggleMusic(self):
+        if self.IsPaused:
+            print("Unpause Music")
+            mixer.music.unpause()
+            self.IsPaused = False
+        else:
+            print("Pause Music")
+            mixer.music.pause()
+            self.IsPaused = True
+    def stop(self):
+        print("Stop Music")
+        mixer.music.stop()
 
-def play_music(music):
-    _result = 0 
-    _mixer_status = 0
-    try:
-        mixer.init()
-        #mixer.music.load(music)
-        #mixer.music.play()
-        m = mixer.Sound(music)
-        m.play()
-        print('Playing:' + music.stem)
-        #print(mixer.music.get_length())
-        while mixer.music.get_busy():
-            _mixer_status = 1 
-            if keyboard.read_key() == "s":
-                print('Stop music')
-                #mixer.pause()
-                m.stop()
-            if keyboard.read_key() == "p":
-                print('Play music')
-                #mixer.play()
-                m.play()
-            if keyboard.read_key() == "q":
-                print('Quit music')
-                #mixer.stop()
-                m.stop()
-            #time.sleep(60)
+    def list(self, file_path='ma_config.json'):
+        try: # load values from configuration file
+            with open(file_path) as file:
+                config = json.load(file)
+                self._music_folder = config['music_folder']
+                print(self._music_folder)
+        except Exception as e: # use default values
+            print(e)
+            print('No music folder has been defined')
+            print('\tHint: Set music_folder in ma_config.json file')
+            #self._music_folder.set(filedialog.askdirectory())
 
-        print('mixer is NOT busy')
-        time.sleep(2)
-        _result = 1
-        return _result
-
-    except Exception as e:
-        print(e)
-        return _result
-
-
-#class MusicPlayer(self, windows, music_folder):
+    def length(self,_path):
+        self._length = round(mixer.Sound(_path).get_length())
+        print(self._length)
 
 
 if __name__ == '__main__':
 
-    # get_music_list()
-    test = get_music_list()
-    print(test)
-    _musics = [p for p in Path(test[1]).glob('*.mp3')]
-    for x in _musics:
-        print(x)
-        play_music(x)
+    music = Music()
+    mixer.init()
+
+    # List the path from the config file / default musics
+    music.list()
+    music_list = list(pathlib.Path(music._music_folder).glob('*.mp3'))
+    print(music_list)
+
+    play_order = list(range(1,len(music_list)+1))
+    random.shuffle(play_order)
+    print(play_order)
