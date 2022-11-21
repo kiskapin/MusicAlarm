@@ -1,5 +1,9 @@
 # required packages for the Music Alarm tool
+os
+sys
 pygame
-tk
+time
+pathlib
+json 
+random
 keyboard
-tkinter

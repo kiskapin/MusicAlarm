@@ -1,3 +1,4 @@
+# D:/Patrik/Musics
 import os
 import sys
 from pygame import mixer
@@ -7,6 +8,8 @@ import pathlib
 import json 
 import tkinter as tk
 import random
+
+
 
 
 def get_sys():
@@ -49,7 +52,10 @@ class Music():
         try: # load values from configuration file
             with open(file_path) as file:
                 config = json.load(file)
-                self._sMusicFolder = config['music_folder']
+                if config['music_folder'] != "":
+                    self._sMusicFolder = config['music_folder']
+                else:
+                    self._sMusicFolder = ".\Musics"
                 self._lMusicPath = list(pathlib.Path(self._sMusicFolder).glob('*.mp3'))
                 self._lMusicOrder = list(range(len(self._lMusicPath)))
                 print(self._sMusicFolder)
@@ -66,15 +72,11 @@ class Music():
         print(self._length)
 
 
-def play(_sMusic):
-    random.shuffle(_sMusic._lMusicOrder)
-
-    for i in _sMusic._lMusicOrder:
-        print(_sMusic._lMusicPath[i])
-        mixer.music.load(_sMusic._lMusicPath[i])
-        mixer.music.play()
+def play():
+    mixer.music.play()
 
 def stop():
+    b_play = False
     mixer.music.stop()
 
 
@@ -117,8 +119,23 @@ if __name__ == '__main__':
     _play_button.pack(fill="x")
     _stop_button.pack(fill="x")
 
+
     music_player.mainloop()
 
+
+    random.shuffle(music._lMusicOrder)
+
+    for path in music._lMusicOrder:
+        print(music._lMusicPath[path])
+        mixer.music.load(music._lMusicPath[path])
+        music.length(music._lMusicPath[path])
+        #sound = mixer.music.load(f".\{path}")
+        mixer.music.play()
+        b_play = True
+
+        _t_end = time.time() + music._length
+        while time.time() < _t_end and b_play == True:
+            pass
     # https://stackoverflow.com/questions/70483495/break-a-while-loop-when-a-button-is-pressed
 
     """
