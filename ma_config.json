@@ -1,11 +1,1 @@
-{
-    "music_folder": "",
-    "recipient_list": [
-        "test.test@gmail.com",
-        "test.test.python@gmail.com"
-    ],
-    "hour": "07",
-    "minute": "30",
-    "quote": 0,
-    "sender_password": "test_pw"
-}
+{"music_folder": "D:/Patrik/Musics", "music_status": "szuper", "recipient_list": ["test.test@gmail.com", "test.test.python@gmail.com"], "hour": "07", "minute": "30"}

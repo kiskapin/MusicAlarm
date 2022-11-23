@@ -49,9 +49,35 @@ class Music():
             
 
     def length(self,_path):
+        print(_path)
         self._n_length = round(pygame.mixer.Sound(_path).get_length())
-        print(self._n_length)
 
+
+def read_status(s_file_path='ma_config.json'):
+    try: # load values from configuration file
+        with open(s_file_path) as file:
+            config = json.load(file)
+            s_status = config['music_status']
+        return 1,s_status
+    except Exception as e: # use default values
+        print(e)
+        return 0,e
+
+def set_status(_s_status_in='Play'):
+    s_file_path='ma_config.json'
+    try:
+        with open(s_file_path) as f:
+            data = json.load(f)
+            data['music_status'] = data['music_status'].replace(data['music_status'],_s_status_in)
+            print("eddig ok")
+
+        with open(s_file_path, 'w') as f:
+            json.dump(data, f)
+
+            return 1,"OK"
+    except Exception as e: # use default values
+        print(e)
+        return 0,e
 
 
 
@@ -85,7 +111,8 @@ if __name__ == '__main__':
     for path in music._l_music_order:
 
         # lenght, name of music
-        print(f"Lenght of music = {music._n_length}")
+        music.length(music._l_music_path[path])
+        print(f"Lenght of music = {music._n_length} sec")
         print(f"Name of music : {music._l_music_path[path].name}")
 
         # load & play music
