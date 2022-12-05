@@ -48,9 +48,12 @@ if __name__ == '__main__':
             _l_wd_time_curr = settings.l_wd_time
             _l_we_time_curr = settings.l_we_time
 
+        
+        print(schedule.get_jobs())
         # Checks whether a scheduled task is pending to run or not
         schedule.run_pending()
         if now.hour - 1 == _l_wd_time_curr[0] or now.hour == _l_wd_time_curr[0] or now.hour - 1 == _l_we_time_curr[0] or now.hour == _l_we_time_curr[0]:
-            time.sleep(60)
+            time.sleep(10)
         else:
             time.sleep(30*60)
+        

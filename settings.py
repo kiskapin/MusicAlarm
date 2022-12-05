@@ -45,3 +45,10 @@ def init():
 
     global s_next_music
     s_next_music = ""
+
+    global l_wd_time 
+    l_wd_time  = []
+
+    global l_we_time 
+    l_we_time  = []
+
