@@ -5,8 +5,9 @@
         "test.test@gmail.com",
         "test.test.python@gmail.com"
     ],
+    "scheduler_test": "2022-12-05 09:39:47.653610",
     "wd_hour": "08",
-    "wd_minute": "10",
+    "wd_minute": "1",
     "we_hour": "07",
     "we_minute": "30"
 }

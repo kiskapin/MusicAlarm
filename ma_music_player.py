@@ -71,7 +71,8 @@ def set_status(_s_status_in='play'):
 
 
 
-if __name__ == '__main__':
+#if __name__ == '__main__':
+def main():
     # test the functions
     settings.set_config(['music_status'],['play'])
 
@@ -155,3 +156,6 @@ if __name__ == '__main__':
     settings.set_config(['music_status'],['play'])
     pygame.quit()
     print("End of program")
+
+if __name__ == '__main__':
+    main()
