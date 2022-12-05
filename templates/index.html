@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css')}}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+        <script>
+            function myFunction(name,job) {
+            document.getElementById("demo").innerHTML = "Welcome " + name + ", the " + job + ".";
+            }
+
+            
+        </script>    
+    </head>
+
+    <body>
+        <h1>Music Alarm</h1>
+        
+        <button style="font-size:24px"><a href="/unpause/" class="fa fa-play"></a></button>
+        <button style="font-size:24px"><a href="/next/" class="fa fa-forward"></a></button>
+        <button style="font-size:24px"><a href="/stop/" class="fa fa-stop"></a></button>
+        <button style="font-size:24px"><a href="/pause/" class="fa fa-pause"></a></button>
+
+        <!-- <button class="button"> <a href="/my-link/">Play</a></button> -->
+
+
+    </body>
+</html>

@@ -4,9 +4,27 @@
 #
 #    pip-compile
 #
+click==8.1.3
+    # via flask
+colorama==0.4.6
+    # via click
+flask==2.2.2
+    # via -r requirements.in
+itsdangerous==2.1.2
+    # via flask
+jinja2==3.1.2
+    # via flask
 keyboard==0.13.5
+    # via -r requirements.in
+markupsafe==2.1.1
+    # via
+    #   jinja2
+    #   werkzeug
+pathlib==1.0.1
     # via -r requirements.in
 pygame==2.1.2
     # via -r requirements.in
-tk==0.1.0
+schedule==1.1.0
     # via -r requirements.in
+werkzeug==2.2.2
+    # via flask
