@@ -54,6 +54,7 @@ class Music():
 
 
 def read_status(s_file_path='ma_config.json'):
+    time.sleep(0.5)
     try: # load values from configuration file
         with open(s_file_path) as file:
             config = json.load(file)
@@ -63,13 +64,12 @@ def read_status(s_file_path='ma_config.json'):
         print(e)
         return 0,e
 
-def set_status(_s_status_in='Play'):
+def set_def_status(_s_status_in='play'):
     s_file_path='ma_config.json'
     try:
         with open(s_file_path) as f:
             data = json.load(f)
             data['music_status'] = data['music_status'].replace(data['music_status'],_s_status_in)
-            print("eddig ok")
 
         with open(s_file_path, 'w') as f:
             json.dump(data, f)
@@ -81,7 +81,8 @@ def set_status(_s_status_in='Play'):
 
 
 
-if __name__ == '__main__':
+#if __name__ == '__main__':
+def main():
     # test the functions
 
     if get_sys()[0] == 1:
@@ -123,7 +124,16 @@ if __name__ == '__main__':
         #b_end_event = False
         b_music_stopped = False
         b_running = True
+        _s_prev_status = read_status()[1].lower()
+
         while b_running:
+            i_counter = 0
+
+            _s_status = read_status()[1].lower()
+            if _s_prev_status == _s_status:
+                i_counter = 1
+            else:
+                _s_prev_status = _s_status
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -132,19 +142,21 @@ if __name__ == '__main__':
                 if event.type == n_song_end:
                     print('music end event')
                     b_running = False
-            
-            if keyboard.is_pressed('p'):
+
+            if _s_status == "pause" and i_counter == 0:
                 print("music paused")
                 pygame.mixer.music.pause()
                 continue
-            if keyboard.is_pressed('u'):
+            if _s_status == "unpause" and i_counter == 0:
                 print("music unpause")
                 pygame.mixer.music.unpause()
                 continue
-            if keyboard.is_pressed('n'):
+            if _s_status == "next" and i_counter == 0:
                 print("next song...")
+                #print(f"counter: {i_counter}")
+                #print(f"status: {_s_status} | prev status: {_s_prev_status} ")
                 break
-            if keyboard.is_pressed('s'):
+            if _s_status == "stop" and i_counter == 0:
                 b_music_stopped = True
                 pygame.mixer.music.stop()
                 break
@@ -152,6 +164,9 @@ if __name__ == '__main__':
         if b_music_stopped:
             break
             
-
+    set_def_status()
     pygame.quit()
     print("End of program")
+
+if __name__ == '__main__':
+    main()

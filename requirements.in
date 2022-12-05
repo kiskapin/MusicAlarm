@@ -1,9 +1,6 @@
 # required packages for the Music Alarm tool
-os
-sys
 pygame
-time
 pathlib
-json 
-random
 keyboard
+flask
+schedule
