@@ -36,6 +36,17 @@ def stop():
   ma_music_player.set_status("stop")
   return render_template('index.html')
 
+@app.route('/gfg', methods =["GET", "POST"])
+def gfg():
+    if request.method == "POST":
+       # getting inputs from HTML
+       _n_wd_hour = request.form.get("wd_hour")
+       _n_wd_minute = request.form.get("wd_minute")
+       _n_we_hour = request.form.get("we_hour")
+       _n_we_minute = request.form.get("we_minute")
+       return (f"we: {_n_wd_hour}{_n_wd_minute} wd: {_n_we_hour}{_n_we_minute}")
+    return render_template("index.html")
+
 
 
 if __name__ == "__main__":

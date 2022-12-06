@@ -17,8 +17,14 @@ def get_alarm_time():
     settings.l_we_time = settings.get_config(['we_hour','we_minute'])[1]
     
 
+
+def print_job():
+    print("Test function")
+
+
 def set_wd_alarm_time(_l_wd_time):
     # wd = week day
+    print((f"WEEKDAY {_l_wd_time[0]}:{_l_wd_time[1]}"))
     schedule.every().monday.at(f"{_l_wd_time[0]}:{_l_wd_time[1]}").do(mmp.main).tag('wd')
     schedule.every().tuesday.at(f"{_l_wd_time[0]}:{_l_wd_time[1]}").do(mmp.main).tag('wd')
     schedule.every().wednesday.at(f"{_l_wd_time[0]}:{_l_wd_time[1]}").do(mmp.main).tag('wd')
@@ -31,9 +37,11 @@ def set_we_alarm_time(_l_we_time):
     schedule.every().saturday.at(f"{_l_we_time[0]}:{_l_we_time[1]}").do(mmp.main).tag('we')
     schedule.every().sunday.at(f"{_l_we_time[0]}:{_l_we_time[1]}").do(mmp.main).tag('we')
 
+
 if __name__ == '__main__':
     
     settings.init()
+
     _l_wd_time_curr = settings.l_wd_time
     _l_we_time_curr = settings.l_we_time
 
@@ -54,11 +62,12 @@ if __name__ == '__main__':
             set_we_alarm_time(settings.l_we_time)
             _l_we_time_curr = settings.l_we_time
 
-        
-        #print(schedule.get_jobs())
+        print(_l_we_time_curr)
+        print(schedule.get_jobs())
         # Checks whether a scheduled task is pending to run or not
         schedule.run_pending()
         if now.hour - 1 == _l_wd_time_curr[0] or now.hour == _l_wd_time_curr[0] or now.hour - 1 == _l_we_time_curr[0] or now.hour == _l_we_time_curr[0]:
-            time.sleep(60)
+            time.sleep(10)
         else:
-            time.sleep(30*60)
+            time.sleep(30)
+        
