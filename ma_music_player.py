@@ -115,12 +115,12 @@ def main():
         #b_end_event = False
         b_music_stopped = False
         b_running = True
-        _s_prev_status = settings.get_config(['music_status'])[1].lower()
+        _s_prev_status = settings.get_config(['music_status'])[1][0].lower()
 
         while b_running:
             i_counter = 0
 
-            _s_status =settings.get_config(['music_status'])[1].lower()
+            _s_status =settings.get_config(['music_status'])[1][0].lower()
             if _s_prev_status == _s_status:
                 i_counter = 1
             else:
@@ -158,4 +158,5 @@ def main():
     print("End of program")
 
 if __name__ == '__main__':
+    print("Executed as main script")
     main()
