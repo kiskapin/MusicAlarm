@@ -1,13 +1,13 @@
 {
     "music_folder": "D:/Patrik/Musics",
-    "music_status": "unpause",
+    "music_status": "stop",
     "recipient_list": [
         "test.test@gmail.com",
         "test.test.python@gmail.com"
     ],
     "scheduler_test": "2022-12-05 09:39:47.653610",
-    "wd_hour": "07",
+    "wd_hour": "01",
     "wd_minute": "01",
     "we_hour": "05",
-    "we_minute": "10"
+    "we_minute": "02"
 }
