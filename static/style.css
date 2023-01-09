@@ -9,7 +9,7 @@
 }
 
 table {
-	border:1px solid black;
+	/*border:1px solid black;*/
 	margin: 0 auto;
 }
 
@@ -104,7 +104,7 @@ h1.form {
 }
 
 th, td{
-    border:1px solid black;
+    /*border:1px solid black;*/
     padding: 30px;
     font-size: 4vw; /*20px;*/
 }
