@@ -1,13 +1,16 @@
 {
     "music_folder": "D:/Patrik/Musics",
-    "music_status": "stop",
+    "music_status": "play",
     "recipient_list": [
         "test.test@gmail.com",
         "test.test.python@gmail.com"
     ],
     "scheduler_test": "2022-12-05 09:39:47.653610",
-    "wd_hour": "01",
-    "wd_minute": "01",
-    "we_hour": "05",
-    "we_minute": "02"
+    "wd_hour": "17",
+    "wd_minute": "57",
+    "we_hour": "14",
+    "we_minute": "38",
+    "music_limit": 3,
+    "current_music": "-",
+    "volume": 20
 }
