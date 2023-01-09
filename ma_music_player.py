@@ -111,11 +111,11 @@ def main():
         # set volume + load & play music
         _n_volume = float(f"0.{settings.get_config(['volume'])[1][0]}")
         pygame.mixer.music.load(f"{music._l_music_path[i]}")
-        #print(f"def volume: {pygame.mixer.music.get_volume()}")
+        print(f"def volume: {pygame.mixer.music.get_volume()}")
         pygame.mixer.music.set_volume(_n_volume)
-        #print(f"new volume: {pygame.mixer.music.get_volume()}")
+        print(f"new volume: {pygame.mixer.music.get_volume()}")
         pygame.mixer.music.play()
-        #print(f"after music starts volume: {pygame.mixer.music.get_volume()}")
+        print(f"after music starts volume: {pygame.mixer.music.get_volume()}")
 
 
         #b_end_event = False
@@ -129,6 +129,7 @@ def main():
             _s_status = settings.get_config(['music_status'])[1][0].lower()
             _n_volume = float(f"0.{settings.get_config(['volume'])[1][0]}")
             pygame.mixer.music.set_volume(_n_volume)
+            print(f"new volume - while loop: {pygame.mixer.music.get_volume()}")
 
             if _s_prev_status == _s_status:
                 i_counter = 1

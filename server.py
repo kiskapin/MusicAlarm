@@ -49,6 +49,10 @@ def update_alarm():
       _s_wd_minute = request.form.get("wd_minute")
       _s_we_hour = request.form.get("we_hour")
       _s_we_minute = request.form.get("we_minute")
+      # WD check if the alarm is turned off 
+      if _s_wd_hour == '00' and _s_wd_minute == '00': _s_wd_hour='-';_s_wd_minute = '-'
+      # WE check if the alarm is turned off 
+      if _s_we_hour == '00' and _s_we_minute == '00': _s_we_hour='-';_s_we_minute = '-'
       _n_music_limit = int(request.form.get("music_limit"))
       _n_volume = int(request.form.get("volume_slider"))
       settings.set_config(['wd_hour','wd_minute','we_hour','we_minute','music_limit', 'volume'],[_s_wd_hour,_s_wd_minute,_s_we_hour,_s_we_minute,_n_music_limit,_n_volume])
