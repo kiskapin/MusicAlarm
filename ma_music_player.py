@@ -99,17 +99,23 @@ def main():
     # test only one song
     #pygame.mixer.music.load(music._l_music_path[1])
     
-    
-    for path in music._l_music_order:
-
+    # get the limit of the music number
+    i_music_limit = int(settings.get_config(['music_limit'])[1][0])
+    for i in music._l_music_order[:i_music_limit]:
         # lenght, name of music
-        music.length(music._l_music_path[path])
+        music.length(music._l_music_path[i])
         print(f"Lenght of music = {music._n_length} sec")
-        print(f"Name of music : {music._l_music_path[path].name}")
+        print(f"Name of music : {music._l_music_path[i].name}")
+        settings.set_config(['current_music'],[music._l_music_path[i].name])
 
-        # load & play music
-        pygame.mixer.music.load(music._l_music_path[path])
+        # set volume + load & play music
+        _n_volume = float(f"0.{settings.get_config(['volume'])[1][0]}")
+        pygame.mixer.music.load(f"{music._l_music_path[i]}")
+        #print(f"def volume: {pygame.mixer.music.get_volume()}")
+        pygame.mixer.music.set_volume(_n_volume)
+        #print(f"new volume: {pygame.mixer.music.get_volume()}")
         pygame.mixer.music.play()
+        #print(f"after music starts volume: {pygame.mixer.music.get_volume()}")
 
 
         #b_end_event = False
@@ -120,7 +126,10 @@ def main():
         while b_running:
             i_counter = 0
 
-            _s_status =settings.get_config(['music_status'])[1][0].lower()
+            _s_status = settings.get_config(['music_status'])[1][0].lower()
+            _n_volume = float(f"0.{settings.get_config(['volume'])[1][0]}")
+            pygame.mixer.music.set_volume(_n_volume)
+
             if _s_prev_status == _s_status:
                 i_counter = 1
             else:
@@ -144,6 +153,7 @@ def main():
                 continue
             if _s_status == "next" and i_counter == 0:
                 print("next song...")
+                settings.set_config(['music_status'],['play'])
                 break
             if _s_status == "stop" and i_counter == 0:
                 b_music_stopped = True
@@ -153,6 +163,8 @@ def main():
         if b_music_stopped:
             break
             
+    
+    settings.set_config(['current_music'],['-'])
     settings.set_config(['music_status'],['play'])
     pygame.quit()
     print("End of program")

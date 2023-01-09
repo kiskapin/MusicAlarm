@@ -34,31 +34,59 @@ def set_we_alarm_time(_l_we_time):
 if __name__ == '__main__':
     
     settings.init()
-    _l_wd_time_curr = settings.l_wd_time
-    _l_we_time_curr = settings.l_we_time
+    get_alarm_time()
+    _l_wd_time_curr = [None]
+    _l_we_time_curr = [None]
 
 
     # Loop so that the scheduling task keeps on running all time.
     while True:
 
+        # set hours - when the application can sleep
+        _n_wd_sleep     = settings.l_wd_time[0]
+        _n_we_sleep     = settings.l_we_time[0]
+
         now = datetime.datetime.now()
 
         get_alarm_time()
+        print(settings.l_wd_time)
+        print(settings.l_we_time)
+        print(_l_wd_time_curr)
+        print(_l_we_time_curr)
         if _l_wd_time_curr != settings.l_wd_time:
             schedule.clear('wd')
-            set_wd_alarm_time(settings.l_wd_time)
-            _l_wd_time_curr = settings.l_wd_time
+            if settings.l_wd_time[0] != "-":
+                print("block wd 1")
+                set_wd_alarm_time(settings.l_wd_time)
+                _l_wd_time_curr = settings.l_wd_time
+
 
         if _l_we_time_curr != settings.l_we_time:
             schedule.clear('we')
-            set_we_alarm_time(settings.l_we_time)
-            _l_we_time_curr = settings.l_we_time
-
+            if settings.l_we_time[0] != "-":
+                print("block we 1")
+                set_we_alarm_time(settings.l_we_time)
+                _l_we_time_curr = settings.l_we_time
         
-        #print(schedule.get_jobs())
+        # set hours - when the application can sleep
+        if _n_wd_sleep == '-':
+            _n_wd_sleep = 0
+        if _n_we_sleep == '-':
+            _n_we_sleep = 0
+        
+        print(_n_wd_sleep)
+        print(_n_we_sleep)
+
+        print(schedule.get_jobs())
         # Checks whether a scheduled task is pending to run or not
         schedule.run_pending()
-        if now.hour - 1 == _l_wd_time_curr[0] or now.hour == _l_wd_time_curr[0] or now.hour - 1 == _l_we_time_curr[0] or now.hour == _l_we_time_curr[0]:
-            time.sleep(60)
-        else:
+        if _n_wd_sleep == 0 and _n_we_sleep == 0 :
+            print("WE and WD turned off")
             time.sleep(30*60)
+        else:
+            if now.hour - 1 == int(_n_wd_sleep) or now.hour == int(_n_wd_sleep) or now.hour+1 == int(_n_wd_sleep) or now.hour - 1 == int(_n_we_sleep) or now.hour == int(_n_we_sleep) or now.hour + 1 == int(_n_we_sleep):
+                print(f"TRUE - now.hour= {now.hour}, _l_wd_time_curr= {_l_wd_time_curr}, _l_we_time_curr= {_l_we_time_curr} ")
+                time.sleep(60)
+            else:
+                print(f"FALSE - now.hour= {now.hour}, _l_wd_time_curr= {_l_wd_time_curr}, _l_we_time_curr= {_l_we_time_curr} ")
+                time.sleep(10*60)

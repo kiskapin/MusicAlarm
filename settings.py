@@ -24,7 +24,14 @@ def set_config(l_variable_name, l_variable_value):
         with open(s_file_path) as f:
             data = json.load(f)
             for i in list(range(len(l_variable_name))): 
-                data[l_variable_name[i]] = data[l_variable_name[i]].replace(data[l_variable_name[i]],l_variable_value[i])
+                if type(l_variable_value[i]) == str:
+                    print(f"str:{l_variable_value[i]}")
+                    data[l_variable_name[i]] = data[l_variable_name[i]].replace(data[l_variable_name[i]],l_variable_value[i])
+                elif type(l_variable_value[i]) == int:
+                    print(f"int:{l_variable_value[i]}")
+                    data[l_variable_name[i]] = l_variable_value[i]
+                else:
+                    print("unknow data type - to be hanged in config")
 
         with open(s_file_path, 'w') as f:
             json.dump(data, f, indent=4)
